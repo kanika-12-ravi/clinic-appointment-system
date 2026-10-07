@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin</title>
+    <style>
+        body { font-family: Arial; background: #eef5fb; text-align: center; margin: 0; }
+        .top { background: #1a73e8; color: white; padding: 20px; }
+        .box { margin: 30px auto; width: 650px; background: white; padding: 30px; border-radius: 10px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th, td { padding: 10px; border-bottom: 1px solid #ddd; text-align: left; }
+        th { background: #1a73e8; color: white; }
+        input { width: 90%; padding: 10px; margin: 6px 0; border: 1px solid #ccc; border-radius: 6px; }
+        button { width: 95%; padding: 12px; background: #1a73e8; color: white; border: none; border-radius: 6px; font-size: 16px; cursor: pointer; }
+        .error { color: red; }
+        .success { color: green; }
+        .del { color: red; }
+    </style>
+</head>
+<body>
+    <div class="top">
+        <h1>City Clinic - Admin</h1>
+    </div>
+    <div class="box">
+        <h3>Add a doctor</h3>
+        {% if error %}<p class="error">{{ error }}</p>{% endif %}
+        {% if success %}<p class="success">{{ success }}</p>{% endif %}
+        <form method="POST">
+            <input type="text" name="name" placeholder="Doctor name" autocomplete="off" required>
+<input type="email" name="email" placeholder="Doctor email (for login)" autocomplete="off" required>
+<input type="password" name="password" placeholder="Doctor password" autocomplete="new-password" required>
+<input type="text" name="specialty" placeholder="Specialty (e.g. Dentist)" autocomplete="off" required>
+<input type="number" name="fees" placeholder="Fees in rupees" autocomplete="off" required>
+            <button type="submit">Add Doctor</button>
+        </form>
+    </div>
+    <div class="box">
+        <h3>All doctors</h3>
+        <table>
+            <tr><th>Name</th><th>Specialty</th><th>Fees</th><th>Action</th></tr>
+            {% for d in doctors %}
+            <tr>
+                <td>{{ d['name'] }}</td>
+                <td>{{ d['specialty'] }}</td>
+                <td>{{ d['fees'] }}</td>
+                <td><a class="del" href="/admin/delete/{{ d['id'] }}" onclick="return confirm('Delete this doctor?')">Delete</a></td>
+            </tr>
+            {% else %}
+            <tr><td colspan="4">No doctors yet.</td></tr>
+            {% endfor %}
+        </table>
+        <p><a href="/dashboard">Back to dashboard</a></p>
+    </div>
+</body>
+</html>

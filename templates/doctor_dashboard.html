@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Doctor Dashboard</title>
+    <style>
+        body { font-family: Arial; background: #eef5fb; text-align: center; margin: 0; }
+        .top { background: #1a73e8; color: white; padding: 20px; }
+        .box { margin: 40px auto; width: 800px; background: white; padding: 30px; border-radius: 10px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th, td { padding: 10px; border-bottom: 1px solid #ddd; text-align: left; }
+        th { background: #1a73e8; color: white; }
+        .done { color: green; font-weight: bold; }
+        .cancelled { color: red; }
+        .complete { background: #1a73e8; color: white; padding: 6px 12px; border-radius: 6px; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <div class="top">
+        <h1>City Clinic - Doctor</h1>
+    </div>
+    <div class="box">
+        <h3>Welcome, {{ name }}</h3>
+        <p>Appointments waiting for you: <b>{{ pending }}</b></p>
+        <table>
+            <tr><th>Patient</th><th>Date</th><th>Time</th><th>Status</th><th>Action</th></tr>
+            {% for a in appointments %}
+            <tr>
+                <td>{{ a['patient_name'] }}</td>
+                <td>{{ a['date'] }}</td>
+                <td>{{ a['time_slot'] }}</td>
+                <td>
+                    {% if a['status'] == 'completed' %}
+                    <span class="done">completed</span>
+                    {% elif a['status'] == 'cancelled' %}
+                    <span class="cancelled">cancelled</span>
+                    {% else %}
+                    booked
+                    {% endif %}
+                </td>
+                <td>
+                    {% if a['status'] == 'booked' %}
+                    <a class="complete" href="/complete/{{ a['id'] }}">Mark completed</a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% else %}
+            <tr><td colspan="5">No appointments yet.</td></tr>
+            {% endfor %}
+        </table>
+        <p><a href="/dashboard">Back to dashboard</a></p>
+    </div>
+</body>
+</html>

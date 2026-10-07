@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Appointments</title>
+    <style>
+        body { font-family: Arial; background: #eef5fb; text-align: center; margin: 0; }
+        .top { background: #1a73e8; color: white; padding: 20px; }
+        .box { margin: 40px auto; width: 750px; background: white; padding: 30px; border-radius: 10px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th, td { padding: 10px; border-bottom: 1px solid #ddd; text-align: left; }
+        th { background: #1a73e8; color: white; }
+        .cancel { color: red; }
+    </style>
+</head>
+<body>
+    <div class="top">
+        <h1>City Clinic</h1>
+    </div>
+    <div class="box">
+        <h3>My Appointments</h3>
+        <table>
+            <tr><th>Doctor</th><th>Specialty</th><th>Date</th><th>Time</th><th>Status</th><th>Action</th></tr>
+            {% for a in appointments %}
+            <tr>
+                <td>{{ a['doctor_name'] }}</td>
+                <td>{{ a['specialty'] }}</td>
+                <td>{{ a['date'] }}</td>
+                <td>{{ a['time_slot'] }}</td>
+                <td>{{ a['status'] }}</td>
+                <td>
+                    {% if a['status'] == 'booked' %}
+                    <a class="cancel" href="/cancel/{{ a['id'] }}" onclick="return confirm('Cancel this appointment?')">Cancel</a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% else %}
+            <tr><td colspan="6">No appointments yet.</td></tr>
+            {% endfor %}
+        </table>
+        <p><a href="/doctors">Book another</a> | <a href="/dashboard">Dashboard</a></p>
+    </div>
+</body>
+</html>

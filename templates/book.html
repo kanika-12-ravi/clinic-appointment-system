@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Book Appointment</title>
+    <style>
+        body { font-family: Arial; background: #eef5fb; text-align: center; margin: 0; }
+        .top { background: #1a73e8; color: white; padding: 20px; }
+        .box { margin: 40px auto; width: 400px; background: white; padding: 30px; border-radius: 10px; }
+        input, select { width: 90%; padding: 10px; margin: 8px 0; border: 1px solid #ccc; border-radius: 6px; }
+        button { width: 95%; padding: 12px; background: #1a73e8; color: white; border: none; border-radius: 6px; font-size: 16px; cursor: pointer; }
+        .error { color: red; }
+        .success { color: green; }
+    </style>
+</head>
+<body>
+    <div class="top">
+        <h1>City Clinic</h1>
+    </div>
+    <div class="box">
+        <h3>Book appointment</h3>
+        <p><b>{{ doctor['name'] }}</b><br>{{ doctor['specialty'] }} | Fees: ₹{{ doctor['fees'] }}</p>
+        {% if error %}<p class="error">{{ error }}</p>{% endif %}
+        {% if success %}<p class="success">{{ success }}</p>{% endif %}
+        <form method="POST">
+            <label>Choose date</label><br>
+            <input type="date" name="date" min="{{ min_date }}" required>
+            <label>Choose time slot</label><br>
+            <select name="time_slot" required>
+                {% for s in slots %}
+                <option value="{{ s }}">{{ s }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit">Book Now</button>
+        </form>
+        <p><a href="/doctors">Back to doctors</a> | <a href="/my-appointments">My appointments</a></p>
+    </div>
+</body>
+</html>
