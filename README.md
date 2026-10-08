@@ -7,6 +7,7 @@ A web application where patients book doctor appointments online, doctors manage
 - Doctor: login, view own appointments, mark them as completed
 - Admin: add and delete doctors
 - Double-booking prevention: a doctor cannot be booked twice at the same date and time
+- Email confirmation sent to the patient after booking (Gmail SMTP)
 - Passwords stored as hashes, role-based access control
 
 ## Tech Stack
@@ -17,7 +18,15 @@ Python, Flask, SQLite, HTML, CSS
 2. Install Flask: `pip install flask`
 3. Run: `python app.py`
 4. Open http://127.0.0.1:5000
+   
+## Email Setup (optional)
+1. Create a Gmail App Password (Google Account > Security > App passwords)
+2. Create a file named `config.py` next to `app.py` with:
+   EMAIL_ADDRESS = "yourname@gmail.com"
+   EMAIL_APP_PASSWORD = "your-16-letter-app-password"
+3. If `config.py` is missing, the app still works but sends no emails.
 
+   
 ## Default Admin Login (for testing only)
 - Email: admin@clinic.com
 - Password: admin123
