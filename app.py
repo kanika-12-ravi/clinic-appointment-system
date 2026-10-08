@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, session
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import date, datetime
 import sqlite3
+from email_service import send_booking_email
 
 app = Flask(__name__)
 app.secret_key = "change-this-to-any-random-text"
@@ -113,6 +114,7 @@ def login():
             session["user_id"] = user["id"]
             session["name"] = user["name"]
             session["role"] = user["role"]
+            session["email"] = email
             return redirect("/dashboard")
 
         return render_template("login.html", error="Wrong email or password.")
@@ -224,6 +226,7 @@ def book(doctor_id):
                     )
                     conn.commit()
                     success = "Appointment booked successfully!"
+                    send_booking_email(session["name"], session.get("email"), doctor["name"], doctor["specialty"], chosen_date, time_slot)
                 except sqlite3.IntegrityError:
                     error = "Sorry, this slot was just taken. Please choose another time."
 
